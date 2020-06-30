@@ -6,6 +6,7 @@ export default class Header extends React.Component {
   counter = 0;
   state = {
     user: "",
+    filename: [null],
     imageFile: [null],
   };
   
@@ -22,12 +23,14 @@ export default class Header extends React.Component {
 
   handleFormSubmit = () => {
 		var item = {
-			user: "",
+      user: "",
+      filename: "",
 			imageFile: ""
 		}
 		for (let index = 0; index < this.state.imageFile.length; index++) {
       this.counter = localStorage.getItem("counter");
       item.user = this.state.user;
+      item.filename = this.state.filename[index];
       item.imageFile= this.state.imageFile[index];
       localStorage.setItem("counter", ++this.counter);
       localStorage.setItem("image"+this.counter, JSON.stringify(item));				
@@ -35,12 +38,15 @@ export default class Header extends React.Component {
   };
 
  	imageUpload = async (e) => {
-		const photos = [];
+    const names = [];
+    const photos = [];
 		await Promise.all([...e.target.files].map(async (file) => {
 			return await getBase64(file).then(base64 => {
+        names.push(file.name);
 				photos.push(base64);
 			});
-		}));
+    }));
+    this.state.filename = names;
 		this.state.imageFile = photos;
 	};
 

@@ -78,10 +78,12 @@ export default class ShowcaseLayout extends React.PureComponent {
 
   render() {
     var images = [],
-    descript = [];
+    descript = [],
+    filename = [];
     var photos = this.allstorage();
     for (let index = 0; index < photos.length; index++) {
       descript.push(photos[index].user)
+      filename.push(photos[index].filename)
       images.push(photos[index].imageFile)
     }
  
@@ -91,8 +93,8 @@ export default class ShowcaseLayout extends React.PureComponent {
           <GridLayout className="layout" width={1315} cols={5} >
             {images.map((value, index) => (
               <div key={`item-${index}`} className="item" ref={ this.addElementRef } style={ this.getStyle(index) } data-grid={{x: index%5, y: 1, w: 1, h: 1}} >
-                <img className={`item-${index}`} src= {images[index]} alt= "" ></img>
-                <div class="content">
+                <img className={`item-${index}`} src= {images[index]} alt= ""></img>
+                <div class="content" title={filename[index]}>
                   <p> { descript[index] } </p>
                 </div>
               </div>
