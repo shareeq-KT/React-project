@@ -64,17 +64,18 @@ export default class ShowcaseLayout extends React.PureComponent {
   allstorage(){
     var values = [],
     pics = [],
-		keys = Object.keys(localStorage),
-		i = keys.length;
+		keys = Object.keys(localStorage).sort(),
+    i = keys.length;
     
-		while(i--) {
-      pics = JSON.parse(localStorage.getItem(keys[i]))
-			values.push( pics );
+    while(i--) {
+      if (keys[i].includes('image', 0)) {
+        pics = JSON.parse(localStorage.getItem(keys[i]))
+        values.push( pics ) 
+      }
     }
-    
     return values;
   }
-  
+
   render() {
     var images = [],
     descript = [];
@@ -83,16 +84,16 @@ export default class ShowcaseLayout extends React.PureComponent {
       descript.push(photos[index].user)
       images.push(photos[index].imageFile)
     }
-    
+ 
     return (
       <div>
         <div ref={ (ref) => { this.setState({ ref }); } } className='item-container'>
           <GridLayout className="layout" width={1315} cols={5} >
             {images.map((value, index) => (
-              <div key={`item-${index}`} className="item" ref={ this.addElementRef } style={ this.getStyle(index) } data-grid={{x:index , y: 1, w: 1, h: 1}} >
+              <div key={`item-${index}`} className="item" ref={ this.addElementRef } style={ this.getStyle(index) } data-grid={{x: index%5, y: 1, w: 1, h: 1}} >
                 <img className={`item-${index}`} src= {images[index]} alt= "" ></img>
                 <div class="content">
-                  <div> { descript[index] } </div>
+                  <p> { descript[index] } </p>
                 </div>
               </div>
             ))}

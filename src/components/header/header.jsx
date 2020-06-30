@@ -3,6 +3,7 @@ import './header.css'
 
 export default class Header extends React.Component {
  
+  counter = 0;
   state = {
     user: "",
     imageFile: [null],
@@ -25,9 +26,11 @@ export default class Header extends React.Component {
 			imageFile: ""
 		}
 		for (let index = 0; index < this.state.imageFile.length; index++) {
-			item.user = this.state.user;
-			item.imageFile= this.state.imageFile[index];
-			localStorage.setItem(index + item.imageFile, JSON.stringify(item));				
+      this.counter = localStorage.getItem("counter");
+      item.user = this.state.user;
+      item.imageFile= this.state.imageFile[index];
+      localStorage.setItem("counter", ++this.counter);
+      localStorage.setItem("image"+this.counter, JSON.stringify(item));				
 		}
   };
 
